@@ -28,9 +28,9 @@ class MainTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+//    override func numberOfSections(in tableView: UITableView) -> Int {
+//        return 1
+//    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cells.count
@@ -41,7 +41,7 @@ class MainTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? CoolerTableViewCell else {return UITableViewCell()}
         
         let coolerCell = cells[indexPath.row]
-        cell.set(cells: coolerCell)
+        cell.textLabel?.text = coolerCell
         
         
         return cell

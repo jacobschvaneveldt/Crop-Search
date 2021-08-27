@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This sets up the inital view when the app opens
         if let scene = (scene as? UIWindowScene) {
             let window = UIWindow(windowScene: scene)
-            window.rootViewController = MainTableViewController()
+            window.rootViewController = NewMainViewController()
             self.window = window
             window.makeKeyAndVisible()
         }
