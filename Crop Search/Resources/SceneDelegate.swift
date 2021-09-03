@@ -13,11 +13,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-
-        // This sets up the inital view when the app opens
         if let scene = (scene as? UIWindowScene) {
             let window = UIWindow(windowScene: scene)
-            window.rootViewController = NewMainViewController()
+            let viewController = MainViewController()
+            let navigationController = UINavigationController(rootViewController: viewController)
+            window.rootViewController = navigationController
             self.window = window
             window.makeKeyAndVisible()
         }

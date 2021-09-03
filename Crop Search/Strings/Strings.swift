@@ -14,6 +14,6 @@ struct Strings {
     static let cellFour = "Water System"
     static let cellFive = "Other"
     static let sectionOne = "Areas of observation - plase note concern(s) if any, as well as corrective actions(s)"
-    static let header = "Cooler Facility Resk Assessment"
+    static let title = "Cooler Facility Risk Assessment"
 }
 

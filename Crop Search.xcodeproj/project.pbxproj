@@ -15,7 +15,7 @@
 		3913903526D4ABC300D32174 /* CoolerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913903426D4ABC300D32174 /* CoolerTableViewCell.swift */; };
 		3913903826D5747600D32174 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913903726D5747600D32174 /* Strings.swift */; };
 		3913903B26D589DB00D32174 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913903A26D589DB00D32174 /* UIViewExtension.swift */; };
-		3913903D26D834F000D32174 /* NewMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913903C26D834F000D32174 /* NewMainViewController.swift */; };
+		3913903D26D834F000D32174 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913903C26D834F000D32174 /* MainViewController.swift */; };
 		3913903F26D836F600D32174 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913903E26D836F600D32174 /* CustomTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,7 +30,7 @@
 		3913903426D4ABC300D32174 /* CoolerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoolerTableViewCell.swift; sourceTree = "<group>"; };
 		3913903726D5747600D32174 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		3913903A26D589DB00D32174 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
-		3913903C26D834F000D32174 /* NewMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMainViewController.swift; sourceTree = "<group>"; };
+		3913903C26D834F000D32174 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		3913903E26D836F600D32174 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -64,6 +64,7 @@
 		3913901526D4A29C00D32174 /* Crop Search */ = {
 			isa = PBXGroup;
 			children = (
+				3913904026D8BBE300D32174 /* Extra to delete */,
 				3913903926D589D100D32174 /* Extensions */,
 				3913903626D5746D00D32174 /* Strings */,
 				3913903326D4AB7E00D32174 /* Custom Views */,
@@ -96,8 +97,7 @@
 		3913902D26D4A3C500D32174 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				3913903126D4A96B00D32174 /* MainTableViewController.swift */,
-				3913903C26D834F000D32174 /* NewMainViewController.swift */,
+				3913903C26D834F000D32174 /* MainViewController.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -105,7 +105,6 @@
 		3913903326D4AB7E00D32174 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
-				3913903426D4ABC300D32174 /* CoolerTableViewCell.swift */,
 				3913903E26D836F600D32174 /* CustomTableViewCell.swift */,
 			);
 			path = "Custom Views";
@@ -125,6 +124,15 @@
 				3913903A26D589DB00D32174 /* UIViewExtension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3913904026D8BBE300D32174 /* Extra to delete */ = {
+			isa = PBXGroup;
+			children = (
+				3913903426D4ABC300D32174 /* CoolerTableViewCell.swift */,
+				3913903126D4A96B00D32174 /* MainTableViewController.swift */,
+			);
+			path = "Extra to delete";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,7 +209,7 @@
 				3913903F26D836F600D32174 /* CustomTableViewCell.swift in Sources */,
 				3913901726D4A29C00D32174 /* AppDelegate.swift in Sources */,
 				3913903B26D589DB00D32174 /* UIViewExtension.swift in Sources */,
-				3913903D26D834F000D32174 /* NewMainViewController.swift in Sources */,
+				3913903D26D834F000D32174 /* MainViewController.swift in Sources */,
 				3913903826D5747600D32174 /* Strings.swift in Sources */,
 				3913901926D4A29C00D32174 /* SceneDelegate.swift in Sources */,
 			);
