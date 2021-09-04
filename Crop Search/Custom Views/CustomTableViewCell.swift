@@ -7,17 +7,26 @@
 
 import UIKit
 
+protocol cellUpdate: AnyObject {
+    func updateTableView(cell: CustomTableViewCell)
+}
+
 class CustomTableViewCell: UITableViewCell {
     
-    static let identifier = "CustomTableViewCell"
     
+    static let identifier = "CustomTableViewCell"
+    static var buttonTapped = false
+    weak var delegate: cellUpdate?
+    static var allSelected: Int = 0
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addAllSubviews()
         segmentedController.addTarget(self, action: #selector(change), for: .allEvents)
         commentButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-
+        setupVerStackView()
+        setupHorStackView()
+        setupTextField()
     }
     
     required init?(coder: NSCoder) {
@@ -27,30 +36,44 @@ class CustomTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        verticalStackView.frame = CGRect(x: 0, y: 0, width: contentView.frame.width, height: contentView.frame.height)
+        horizontalStackView.frame = CGRect(x: 0, y: 0, width: contentView.frame.width, height: contentView.frame.height / 2)
+        
         titleLabel.anchor(top: nil, bottom: nil, leading: self.leadingAnchor, trailing: self.trailingAnchor, paddingTop: 0, paddingBottom: 0, paddingLeft: 16, paddingRight: 0, width: titleLabel.frame.width, height: contentView.frame.height)
         
-        titleLabel.frame = CGRect(x: 16, y: contentView.frame.height / 2 - titleLabel.frame.height / 2, width: titleLabel.frame.width, height: titleLabel.frame.height)
+        titleLabel.frame = CGRect(x: 16, y: horizontalStackView.frame.height / 2 - titleLabel.frame.height / 2, width: titleLabel.frame.width, height: titleLabel.frame.height)
         
-        commentButton.frame = CGRect(x: contentView.frame.width - commentButton.frame.width - segmentedController.frame.width - 32, y: contentView.frame.height / 2 - commentButton.frame.height / 2, width: contentView.frame.height / 2, height: contentView.frame.height / 2.3)
+        commentButton.frame = CGRect(x: horizontalStackView.frame.width - commentButton.frame.width - segmentedController.frame.width - 32, y: horizontalStackView.frame.height / 2 - commentButton.frame.height / 2, width: commentButton.frame.width, height: commentButton.frame.height)
         
-        segmentedController.frame = CGRect(x: contentView.frame.width - segmentedController.frame.width - 16, y: contentView.frame.height / 2 - segmentedController.frame.height / 2, width: segmentedController.frame.width, height: segmentedController.frame.height)
+        segmentedController.frame = CGRect(x: horizontalStackView.frame.width - segmentedController.frame.width - 16, y: horizontalStackView.frame.height / 2 - segmentedController.frame.height / 2, width: segmentedController.frame.width, height: segmentedController.frame.height)
         
-        //TODO - add comment text field
     }
     
     //MARK: - FUNCTIONS
     func addAllSubviews() {
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(commentButton)
-        contentView.addSubview(segmentedController)
-        contentView.addSubview(commentTextView)
+        contentView.addSubview(horizontalStackView)
+        contentView.addSubview(verticalStackView)
     }
+    
+    func setupVerStackView() {
+        verticalStackView.addSubview(horizontalStackView)
+        verticalStackView.addSubview(commentTextField)
+    }
+    
+    func setupHorStackView() {
+        horizontalStackView.addSubview(titleLabel)
+        horizontalStackView.addSubview(commentButton)
+        horizontalStackView.addSubview(segmentedController)
+    }
+    
     
     func setTitle(title: String) {
         titleLabel.text = title
     }
     
     @objc func change(sender: UISegmentedControl) {
+        CustomTableViewCell.allSelected += 1
+        print(CustomTableViewCell.allSelected)
         if segmentedController.selectedSegmentIndex == 0 {
             segmentedController.selectedSegmentTintColor = .systemGreen
         } else if segmentedController.selectedSegmentIndex == 1 {
@@ -61,7 +84,25 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     @objc func buttonPressed(sender: UIButton) {
-        print("button is tapped")
+        CustomTableViewCell.buttonTapped.toggle()
+        print(CustomTableViewCell.buttonTapped)
+        updateViews()
+    }
+    
+    func updateViews() {
+        delegate?.updateTableView(cell: self)
+    }
+    
+    func setupTextField() {
+        commentTextField.anchor(top: horizontalStackView.bottomAnchor, bottom: verticalStackView.bottomAnchor, leading: verticalStackView.leadingAnchor, trailing: verticalStackView.trailingAnchor, paddingTop: 0, paddingBottom: 0, paddingLeft: 16, paddingRight: 16)
+        commentTextField.isHidden = true
+//        updateViews()
+    }
+    
+    func setupCommentLabel() {
+        commentTextLabel.anchor(top: horizontalStackView.bottomAnchor, bottom: verticalStackView.bottomAnchor, leading: verticalStackView.leadingAnchor, trailing: verticalStackView.trailingAnchor, paddingTop: 0, paddingBottom: 0, paddingLeft: 16, paddingRight: 16)
+        commentTextLabel.isHidden = true
+//        updateViews()
     }
     
     //MARK: - VIEWS
@@ -71,13 +112,14 @@ class CustomTableViewCell: UITableViewCell {
         return titleLabel
     }()
     
-    private let commentButton: UIButton = {
+    let commentButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus.bubble"), for: .normal)
         button.backgroundColor = .clear
         button.tintColor = .orange
-        button.contentVerticalAlignment = .fill
+        button.contentVerticalAlignment = .center
         button.contentHorizontalAlignment = .fill
+        button.sizeToFit()
         
         return button
     }()
@@ -90,11 +132,34 @@ class CustomTableViewCell: UITableViewCell {
         return sc
     }()
     
-    private let commentTextView: UITextField = {
-       let utf = UITextField()
+    let commentTextField: UITextField = {
+        let utf = UITextField()
         utf.backgroundColor = .blue
         utf.clipsToBounds = true
+        utf.sizeToFit()
         
         return utf
+    }()
+    
+    private let horizontalStackView: UIStackView = {
+        let hsv = UIStackView()
+        hsv.axis = .horizontal
+        
+        return hsv
+    }()
+    
+    private let verticalStackView: UIStackView = {
+        let vsv = UIStackView()
+        vsv.axis = .vertical
+        
+        return vsv
+    }()
+    
+    private let commentTextLabel: UILabel = {
+        let ctl = UILabel()
+        ctl.textColor = .red
+        ctl.textAlignment = .left
+        
+        return ctl
     }()
 }

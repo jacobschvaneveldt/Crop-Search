@@ -10,6 +10,11 @@ import UIKit
 class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var cells: [String] = [Strings.cellOne, Strings.cellTwo, Strings.cellThree, Strings.cellFour, Strings.cellFive]
+    static var selectedIndex: NSInteger! = -1
+    var buttonTag: Int?
+    var checked = Set<IndexPath>()
+    var expandedCells: [Int] = []
+
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -17,7 +22,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         return tableView
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
@@ -25,6 +30,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.delegate = self
         navigationController?.navigationBar.prefersLargeTitles = true
         title = Strings.title
+        tableView.rowHeight = UITableView.automaticDimension
     }
     
     override func viewDidLayoutSubviews() {
@@ -33,7 +39,6 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     
-
 }//End of class
 
 extension MainViewController {
@@ -46,7 +51,12 @@ extension MainViewController {
         let view = UIView()
         let label = UILabel()
         
-        view.backgroundColor = .systemGreen
+        if cells.count == CustomTableViewCell.allSelected / 2 {
+            view.backgroundColor = .green
+        } else {
+            view.backgroundColor = .gray
+        }
+        
         label.text = Strings.sectionOne
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 20)
@@ -58,7 +68,6 @@ extension MainViewController {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
         return 50
     }
     
@@ -70,12 +79,18 @@ extension MainViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else {return UITableViewCell()}
         let cells = cells[indexPath.row]
         cell.setTitle(title: cells)
+        cell.delegate = self
+        cell.selectionStyle = .none
+        cell.tag = indexPath.row
+//        MainViewController.indexOfButton.append(buttonTag ?? -1)
+//        print(MainViewController.indexOfButton)
+//        CustomTableViewCell.commentTextField.isHidden = self.checked.contains(indexPath)
         
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -85,4 +100,26 @@ extension MainViewController {
             cell.backgroundColor = .systemBackground
         }
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if expandedCells.contains(indexPath.row) {
+            return 100
+        } else {
+            return 50
+        }
+    }
+
 }
+
+extension MainViewController: cellUpdate {
+    func updateTableView(cell: CustomTableViewCell) {
+        cell.commentTextField.isHidden.toggle()
+        if expandedCells.contains(cell.tag) {
+            expandedCells = expandedCells.filter({ $0 != cell.tag})
+        } else {
+            expandedCells.append(cell.tag)
+        }
+        tableView.reloadData()
+    }
+}
+
