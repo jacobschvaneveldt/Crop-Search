@@ -9,6 +9,7 @@ import UIKit
 
 protocol cellUpdate: AnyObject {
     func updateTableView(cell: CustomTableViewCell)
+    func getSC(cell: CustomTableViewCell)
 }
 
 class CustomTableViewCell: UITableViewCell {
@@ -17,12 +18,11 @@ class CustomTableViewCell: UITableViewCell {
     static let identifier = "CustomTableViewCell"
     static var buttonTapped = false
     weak var delegate: cellUpdate?
-    static var allSelected: Int = 0
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addAllSubviews()
-        segmentedController.addTarget(self, action: #selector(change), for: .allEvents)
+        segmentedController.addTarget(self, action: #selector(change), for: .valueChanged)
         commentButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         setupVerStackView()
         setupHorStackView()
@@ -72,8 +72,7 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     @objc func change(sender: UISegmentedControl) {
-        CustomTableViewCell.allSelected += 1
-        print(CustomTableViewCell.allSelected)
+        getSC()
         if segmentedController.selectedSegmentIndex == 0 {
             segmentedController.selectedSegmentTintColor = .systemGreen
         } else if segmentedController.selectedSegmentIndex == 1 {
@@ -84,13 +83,15 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     @objc func buttonPressed(sender: UIButton) {
-        CustomTableViewCell.buttonTapped.toggle()
-        print(CustomTableViewCell.buttonTapped)
         updateViews()
     }
     
     func updateViews() {
         delegate?.updateTableView(cell: self)
+    }
+    
+    func getSC() {
+        delegate?.getSC(cell: self)
     }
     
     func setupTextField() {
@@ -105,6 +106,10 @@ class CustomTableViewCell: UITableViewCell {
 //        updateViews()
     }
     
+    func setCommentLabel(comment: String) {
+        commentTextLabel.text = comment
+    }
+    
     //MARK: - VIEWS
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
@@ -114,7 +119,12 @@ class CustomTableViewCell: UITableViewCell {
     
     let commentButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "plus.bubble"), for: .normal)
+        if buttonTapped == false {
+            button.setImage(UIImage(systemName: "plus.bubble"), for: .normal)
+        } else {
+            button.setImage(UIImage(systemName: "multiply"), for: .normal)
+        }
+        
         button.backgroundColor = .clear
         button.tintColor = .orange
         button.contentVerticalAlignment = .center
@@ -124,7 +134,7 @@ class CustomTableViewCell: UITableViewCell {
         return button
     }()
     
-    private let segmentedController: UISegmentedControl = {
+    let segmentedController: UISegmentedControl = {
         let items = ["Acceptable", "Unacceptable", "N/A"]
         let sc = UISegmentedControl(items: items)
         sc.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
@@ -133,12 +143,14 @@ class CustomTableViewCell: UITableViewCell {
     }()
     
     let commentTextField: UITextField = {
-        let utf = UITextField()
-        utf.backgroundColor = .blue
-        utf.clipsToBounds = true
-        utf.sizeToFit()
+        let ctf = UITextField()
+        ctf.backgroundColor = .systemBackground
+        ctf.clipsToBounds = true
+        ctf.sizeToFit()
+        ctf.layer.cornerRadius = 15
+        ctf.layer.borderWidth = 1
         
-        return utf
+        return ctf
     }()
     
     private let horizontalStackView: UIStackView = {
@@ -157,6 +169,7 @@ class CustomTableViewCell: UITableViewCell {
     
     private let commentTextLabel: UILabel = {
         let ctl = UILabel()
+        ctl.backgroundColor = .cyan
         ctl.textColor = .red
         ctl.textAlignment = .left
         
