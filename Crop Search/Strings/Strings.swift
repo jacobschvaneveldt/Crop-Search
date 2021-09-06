@@ -8,6 +8,7 @@
 import Foundation
 
 struct Strings {
+    //MARK: - CoolerRiskVC
     static let cellOne = "Surround Areas / Adjacent Activites"
     static let cellTwo = "Building Grounds"
     static let cellThree = "Building Structure"
@@ -15,12 +16,6 @@ struct Strings {
     static let cellFive = "Other"
     static let sectionOne = "Areas of observation - plase note concern(s) if any, as well as corrective actions(s)"
     static let CoolerFacilityRiskAsssessmentTitle = "Cooler Facility Risk Assessment"
-    static let commentButtonImage1 = "plus.bubble"
-    static let commentButtonImage2 = "multiply"
-    static let acceptable = "Acceptable"
-    static let unacceptable = "Unacceptable"
-    static let NA = "N/A"
-    static let user = "Eric Engman"
     static let saveButton = "Save Changes"
     static let submitButton = "Final Submit"
     static let dashboardButtonImage = "square.3.stack.3d"
@@ -29,7 +24,15 @@ struct Strings {
     static let foodSafetyButtonTitle = "Food Safety"
     static let avenirRomanFont = "Avenir-Roman"
     
-    //MARK: - DOCUMENTSVIEWCONTROLLER
+    //MARK: - CoolerRiskCell
+    static let user = "Eric Engman"
+    static let acceptable = "Acceptable"
+    static let unacceptable = "Unacceptable"
+    static let NA = "N/A"
+    static let commentButtonImage1 = "plus.bubble"
+    static let commentButtonImage2 = "multiply"
+    
+    //MARK: - DocumentsVC
     static let documentsTitle = "Documents"
     static let nextViewButtonTitle = "Tap to go to the next view ->"
 }

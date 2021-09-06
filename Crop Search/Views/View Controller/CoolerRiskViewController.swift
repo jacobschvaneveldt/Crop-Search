@@ -38,7 +38,6 @@ class CoolerRiskViewController: UIViewController, UITableViewDataSource, UITable
     
     private let submitButton: UIButton = {
         let submitButton = UIButton()
-        
         submitButton.setTitle(Strings.submitButton, for: .normal)
         submitButton.setTitleColor(.orange, for: .normal)
         
