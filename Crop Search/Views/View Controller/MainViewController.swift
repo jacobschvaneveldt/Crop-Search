@@ -17,7 +17,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     let custom = CustomTableViewCell()
     
-    
+    //MARK: - VIEWS
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
@@ -53,16 +53,75 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return sv
     }()
     
+    private let line: UIView = {
+       let line = UIView()
+        line.layer.borderWidth = 100
+        line.layer.borderColor = UIColor.black.cgColor
+        line.layer.opacity = 0.1
+        
+        return line
+    }()
+    
+    private let line2: UIView = {
+       let line = UIView()
+        line.layer.borderWidth = 100
+        line.layer.borderColor = UIColor.black.cgColor
+        line.layer.opacity = 0.1
+        
+        return line
+    }()
+    
+    private let dashboardButton: UIButton = {
+        let button = UIButton()
+        let font = UIFont.systemFont(ofSize: 3)
+        button.setImage(UIImage(systemName: "square.3.stack.3d"), for: .normal)
+        button.setTitle("Dashboard", for: .normal)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.tintColor = .lightGray
+        button.sizeToFit()
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .center
+        button.sizeToFit()
+        button.titleLabel?.font = UIFont(name: "Avenir-Roman", size: 15)
+        
+        return button
+    }()
+    
+    private let foodSafetyButton: UIButton = {
+        let button = UIButton()
+        let font = UIFont.systemFont(ofSize: 3)
+        button.setImage(UIImage(systemName: "exclamationmark.triangle"), for: .normal)
+        button.setTitle("Food Safety", for: .normal)
+        button.setTitleColor(.orange, for: .normal)
+        button.tintColor = .orange
+        button.contentVerticalAlignment = .center
+        button.contentHorizontalAlignment = .center
+        button.sizeToFit()
+        button.titleLabel?.font = UIFont(name: "Avenir-Roman", size: 15)
+        
+        return button
+    }()
+    
+    private let dashboardFoodStackView: UIStackView = {
+       let sv = UIStackView()
+        sv.axis = .horizontal
+        return sv
+    }()
+    
+    //MARK: - LIFECYCLES
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         addAllSubviews()
         setupSaveSubmitSV()
+        setupDashboardFoodSV()
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         tableView.dataSource = self
         tableView.delegate = self
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.tintColor = .orange
         title = Strings.title
+        checkFontName()
     }
     
     override func viewDidLayoutSubviews() {
@@ -70,11 +129,22 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         tableView.anchor(top: view.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0)
         
-        saveSubmitStackView.anchor(top: tableView.bottomAnchor, bottom: safeArea.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, paddingTop: 0, paddingBottom: -80, paddingLeft: 0, paddingRight: 0, height: 50)
+        saveSubmitStackView.anchor(top: tableView.bottomAnchor, bottom: dashboardFoodStackView.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0, height: 50)
         
         saveButton.anchor(top: saveSubmitStackView.topAnchor, bottom: saveSubmitStackView.bottomAnchor, leading: saveSubmitStackView.leadingAnchor, trailing: nil, paddingTop: 0, paddingBottom: 0, paddingLeft: view.frame.width / 3, paddingRight: 0, width: saveButton.frame.width, height: saveButton.frame.height)
         
         submitButton.anchor(top: saveSubmitStackView.topAnchor, bottom: saveSubmitStackView.bottomAnchor, leading: nil, trailing: saveSubmitStackView.trailingAnchor, paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: view.frame.width / 3)
+        
+        dashboardFoodStackView.anchor(top: saveSubmitStackView.bottomAnchor, bottom: safeArea.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0, height: 50)
+        
+        dashboardButton.anchor(top: dashboardFoodStackView.topAnchor, bottom: dashboardFoodStackView.bottomAnchor, leading: dashboardFoodStackView.leadingAnchor, trailing: nil, paddingTop: 0, paddingBottom: 0, paddingLeft: view.frame.width / 3, paddingRight: 0, width: dashboardButton.frame.width, height: dashboardButton.frame.height)
+        
+        foodSafetyButton.anchor(top: dashboardFoodStackView.topAnchor, bottom: dashboardFoodStackView.bottomAnchor, leading: nil, trailing: dashboardFoodStackView.trailingAnchor, paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: view.frame.width / 3, width: foodSafetyButton.frame.width, height: foodSafetyButton.frame.height)
+
+        
+        line.frame = CGRect(x: 0, y: 0, width: saveSubmitStackView.frame.width, height: 1)
+        line2.frame = CGRect(x: 0, y: 0, width: dashboardFoodStackView.frame.width, height: 1)
+
     }
     
     //MARK: - FUNCTIONS
@@ -84,17 +154,39 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         view.addSubview(saveButton)
         view.addSubview(submitButton)
         view.addSubview(saveSubmitStackView)
+        view.addSubview(dashboardFoodStackView)
+        view.addSubview(dashboardButton)
+        view.addSubview(foodSafetyButton)
     }
     
     func setupSaveSubmitSV() {
         saveSubmitStackView.addSubview(saveButton)
         saveSubmitStackView.addSubview(submitButton)
+        saveSubmitStackView.addSubview(line)
+    }
+    
+    func setupDashboardFoodSV() {
+        dashboardFoodStackView.addSubview(dashboardButton)
+        dashboardFoodStackView.addSubview(foodSafetyButton)
+        dashboardFoodStackView.addSubview(line2)
     }
     
     @objc func saveButtonTapped() {
         showCommentTextLabel(cell: custom)
     }
     
+    func checkFontName(){
+        let familyNames = UIFont.familyNames
+        var fontNames = [String]()
+        for familyName in familyNames {
+            print("family Name: \(familyName)")
+            fontNames = UIFont.fontNames(forFamilyName: familyName)
+            for fontName in fontNames {
+                print("font Name: \(fontName)")
+                
+            }
+        }
+    }
     
 }//End of class
 
