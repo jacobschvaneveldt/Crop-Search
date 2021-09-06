@@ -42,7 +42,6 @@ class CoolerRiskTableViewCell: UITableViewCell {
         
         verticalStackView.frame = CGRect(x: 0, y: 0, width: contentView.frame.width, height: contentView.frame.height)
         
-        ///The height is explicitly set here because that is the height of the cell initially
         horizontalStackView.frame = CGRect(x: 0, y: 0, width: contentView.frame.width, height: 50)
                 
         titleLabel.anchor(top: nil, bottom: nil, leading: self.leadingAnchor, trailing: self.trailingAnchor, paddingTop: 0, paddingBottom: 0, paddingLeft: 16, paddingRight: 0, width: titleLabel.frame.width, height: contentView.frame.height)
@@ -170,6 +169,7 @@ class CoolerRiskTableViewCell: UITableViewCell {
         let sc = UISegmentedControl(items: items)
         sc.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
         sc.clipsToBounds = true
+        
         return sc
     }()
     
