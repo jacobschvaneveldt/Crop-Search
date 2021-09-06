@@ -17,6 +17,7 @@
 		3913903B26D589DB00D32174 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913903A26D589DB00D32174 /* UIViewExtension.swift */; };
 		3913903D26D834F000D32174 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913903C26D834F000D32174 /* MainViewController.swift */; };
 		3913903F26D836F600D32174 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913903E26D836F600D32174 /* CustomTableViewCell.swift */; };
+		397C8F9926E5CFC500F4D198 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397C8F9826E5CFC500F4D198 /* DateFormatter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		3913903A26D589DB00D32174 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		3913903C26D834F000D32174 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		3913903E26D836F600D32174 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		397C8F9826E5CFC500F4D198 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				3913903A26D589DB00D32174 /* UIViewExtension.swift */,
+				397C8F9826E5CFC500F4D198 /* DateFormatter.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -204,6 +207,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				397C8F9926E5CFC500F4D198 /* DateFormatter.swift in Sources */,
 				3913903226D4A96B00D32174 /* MainTableViewController.swift in Sources */,
 				3913903526D4ABC300D32174 /* CoolerTableViewCell.swift in Sources */,
 				3913903F26D836F600D32174 /* CustomTableViewCell.swift in Sources */,

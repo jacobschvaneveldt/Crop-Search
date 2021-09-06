@@ -12,10 +12,10 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var cells: [String] = [Strings.cellOne, Strings.cellTwo, Strings.cellThree, Strings.cellFour, Strings.cellFive]
     var expandedCells: [Int] = []
     var selectedSC: [Int] = []
-    var indexSegment: [Int] = []
     var safeArea: UILayoutGuide {
         self.view.safeAreaLayoutGuide
     }
+    let custom = CustomTableViewCell()
     
     
     private let tableView: UITableView = {
@@ -70,7 +70,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         tableView.anchor(top: view.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0)
         
-        saveSubmitStackView.anchor(top: tableView.bottomAnchor, bottom: safeArea.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0, height: 50)
+        saveSubmitStackView.anchor(top: tableView.bottomAnchor, bottom: safeArea.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, paddingTop: 0, paddingBottom: -80, paddingLeft: 0, paddingRight: 0, height: 50)
         
         saveButton.anchor(top: saveSubmitStackView.topAnchor, bottom: saveSubmitStackView.bottomAnchor, leading: saveSubmitStackView.leadingAnchor, trailing: nil, paddingTop: 0, paddingBottom: 0, paddingLeft: view.frame.width / 3, paddingRight: 0, width: saveButton.frame.width, height: saveButton.frame.height)
         
@@ -92,7 +92,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @objc func saveButtonTapped() {
-        
+        showCommentTextLabel(cell: custom)
     }
     
     
@@ -135,13 +135,13 @@ extension MainViewController {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else {return UITableViewCell()}
+        
         let cells = cells[indexPath.row]
         cell.setTitle(title: cells)
         cell.delegate = self
         cell.selectionStyle = .none
         cell.tag = indexPath.row
-        
-        
+
         return cell
     }
     
@@ -170,6 +170,12 @@ extension MainViewController {
 }//End of class
 
 extension MainViewController: cellUpdate {
+    func showCommentTextLabel(cell: CustomTableViewCell) {
+        cell.commentTextField.isHidden = true
+        cell.commentTextLabel.isHidden = false
+        tableView.reloadData()
+    }
+    
     func getSC(cell: CustomTableViewCell) {
         selectedSC.append(cell.tag)
         tableView.reloadData()
@@ -177,14 +183,15 @@ extension MainViewController: cellUpdate {
     
     func updateTableView(cell: CustomTableViewCell) {
         cell.commentTextField.isHidden.toggle()
+        cell.commentButton2.isHidden.toggle()
+        cell.commentButton.isHidden.toggle()
+        
         if expandedCells.contains(cell.tag) {
             expandedCells = expandedCells.filter({ $0 != cell.tag})
         } else {
             expandedCells.append(cell.tag)
         }
-        print(expandedCells)
+        
         tableView.reloadData()
     }
-    
-    
 }//End of extension
