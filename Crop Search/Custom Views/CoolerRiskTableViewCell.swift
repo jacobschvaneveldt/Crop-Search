@@ -8,18 +8,17 @@
 import UIKit
 
 protocol cellUpdate: AnyObject {
-    func updateTableView(cell: CustomTableViewCell)
-    func getSC(cell: CustomTableViewCell)
-    func showCommentTextLabel(cell: CustomTableViewCell)
+    func updateTableView(cell: CoolerRiskTableViewCell)
+    func getSC(cell: CoolerRiskTableViewCell)
+    func showCommentTextLabel(cell: CoolerRiskTableViewCell)
 }
 
-class CustomTableViewCell: UITableViewCell {
+class CoolerRiskTableViewCell: UITableViewCell {
     
     
-    static let identifier = "CustomTableViewCell"
-    static var buttonTapped = 1
+    static let identifier = "CoolerRiskTableViewCell"
     weak var delegate: cellUpdate?
-    var user = "Eric Engman"
+    var user = Strings.user
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -141,8 +140,7 @@ class CustomTableViewCell: UITableViewCell {
     let commentButton: UIButton = {
         let button = UIButton()
 
-        button.setImage(UIImage(systemName: "plus.bubble"), for: .normal)
-        
+        button.setImage(UIImage(systemName: Strings.commentButtonImage1), for: .normal)
         button.backgroundColor = .clear
         button.tintColor = .orange
         button.contentVerticalAlignment = .center
@@ -155,8 +153,7 @@ class CustomTableViewCell: UITableViewCell {
     let commentButton2: UIButton = {
         let button = UIButton()
 
-        button.setImage(UIImage(systemName: "multiply"), for: .normal)
-        
+        button.setImage(UIImage(systemName: Strings.commentButtonImage2), for: .normal)
         button.backgroundColor = .clear
         button.tintColor = .orange
         button.contentVerticalAlignment = .center
@@ -169,7 +166,7 @@ class CustomTableViewCell: UITableViewCell {
 
     
     let segmentedController: UISegmentedControl = {
-        let items = ["Acceptable", "Unacceptable", "N/A"]
+        let items = [Strings.acceptable, Strings.unacceptable, Strings.NA]
         let sc = UISegmentedControl(items: items)
         sc.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
         sc.clipsToBounds = true

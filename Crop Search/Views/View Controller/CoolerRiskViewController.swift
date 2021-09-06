@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class CoolerRiskViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var cells: [String] = [Strings.cellOne, Strings.cellTwo, Strings.cellThree, Strings.cellFour, Strings.cellFive]
     var expandedCells: [Int] = []
@@ -15,19 +15,19 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var safeArea: UILayoutGuide {
         self.view.safeAreaLayoutGuide
     }
-    let custom = CustomTableViewCell()
+    let custom = CoolerRiskTableViewCell()
     
     //MARK: - VIEWS
     private let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
+        tableView.register(CoolerRiskTableViewCell.self, forCellReuseIdentifier: CoolerRiskTableViewCell.identifier)
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         return tableView
     }()
     
     private let saveButton: UIButton = {
         let saveButton = UIButton()
-        saveButton.setTitle("Save Changes", for: .normal)
+        saveButton.setTitle(Strings.saveButton, for: .normal)
         saveButton.setTitleColor(.orange, for: .normal)
         saveButton.sizeToFit()
         saveButton.contentVerticalAlignment = .center
@@ -39,7 +39,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private let submitButton: UIButton = {
         let submitButton = UIButton()
         
-        submitButton.setTitle("Final Submit", for: .normal)
+        submitButton.setTitle(Strings.submitButton, for: .normal)
         submitButton.setTitleColor(.orange, for: .normal)
         
         return submitButton
@@ -55,7 +55,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     private let line: UIView = {
        let line = UIView()
-        line.layer.borderWidth = 100
+        line.layer.borderWidth = 1
         line.layer.borderColor = UIColor.black.cgColor
         line.layer.opacity = 0.1
         
@@ -64,7 +64,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     private let line2: UIView = {
        let line = UIView()
-        line.layer.borderWidth = 100
+        line.layer.borderWidth = 1
         line.layer.borderColor = UIColor.black.cgColor
         line.layer.opacity = 0.1
         
@@ -73,31 +73,29 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     private let dashboardButton: UIButton = {
         let button = UIButton()
-        let font = UIFont.systemFont(ofSize: 3)
-        button.setImage(UIImage(systemName: "square.3.stack.3d"), for: .normal)
-        button.setTitle("Dashboard", for: .normal)
+        button.setImage(UIImage(systemName: Strings.dashboardButtonImage), for: .normal)
+        button.setTitle(Strings.dashboardButtonTitle, for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
         button.tintColor = .lightGray
         button.sizeToFit()
         button.contentVerticalAlignment = .center
         button.contentHorizontalAlignment = .center
         button.sizeToFit()
-        button.titleLabel?.font = UIFont(name: "Avenir-Roman", size: 15)
+        button.titleLabel?.font = UIFont(name: Strings.avenirRomanFont, size: 15)
         
         return button
     }()
     
     private let foodSafetyButton: UIButton = {
         let button = UIButton()
-        let font = UIFont.systemFont(ofSize: 3)
-        button.setImage(UIImage(systemName: "exclamationmark.triangle"), for: .normal)
-        button.setTitle("Food Safety", for: .normal)
+        button.setImage(UIImage(systemName: Strings.foodSafetyButtonImage), for: .normal)
+        button.setTitle(Strings.foodSafetyButtonTitle, for: .normal)
         button.setTitleColor(.orange, for: .normal)
         button.tintColor = .orange
         button.contentVerticalAlignment = .center
         button.contentHorizontalAlignment = .center
         button.sizeToFit()
-        button.titleLabel?.font = UIFont(name: "Avenir-Roman", size: 15)
+        button.titleLabel?.font = UIFont(name: Strings.avenirRomanFont, size: 15)
         
         return button
     }()
@@ -105,6 +103,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private let dashboardFoodStackView: UIStackView = {
        let sv = UIStackView()
         sv.axis = .horizontal
+        
         return sv
     }()
     
@@ -120,8 +119,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.delegate = self
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.tintColor = .orange
-        title = Strings.title
-        checkFontName()
+        title = Strings.CoolerFacilityRiskAsssessmentTitle
     }
     
     override func viewDidLayoutSubviews() {
@@ -175,22 +173,9 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         showCommentTextLabel(cell: custom)
     }
     
-    func checkFontName(){
-        let familyNames = UIFont.familyNames
-        var fontNames = [String]()
-        for familyName in familyNames {
-            print("family Name: \(familyName)")
-            fontNames = UIFont.fontNames(forFamilyName: familyName)
-            for fontName in fontNames {
-                print("font Name: \(fontName)")
-                
-            }
-        }
-    }
-    
 }//End of class
 
-extension MainViewController {
+extension CoolerRiskViewController {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         1
@@ -226,7 +211,7 @@ extension MainViewController {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CoolerRiskTableViewCell.identifier, for: indexPath) as? CoolerRiskTableViewCell else {return UITableViewCell()}
         
         let cells = cells[indexPath.row]
         cell.setTitle(title: cells)
@@ -261,19 +246,19 @@ extension MainViewController {
     
 }//End of class
 
-extension MainViewController: cellUpdate {
-    func showCommentTextLabel(cell: CustomTableViewCell) {
+extension CoolerRiskViewController: cellUpdate {
+    func showCommentTextLabel(cell: CoolerRiskTableViewCell) {
         cell.commentTextField.isHidden = true
         cell.commentTextLabel.isHidden = false
         tableView.reloadData()
     }
     
-    func getSC(cell: CustomTableViewCell) {
+    func getSC(cell: CoolerRiskTableViewCell) {
         selectedSC.append(cell.tag)
         tableView.reloadData()
     }
     
-    func updateTableView(cell: CustomTableViewCell) {
+    func updateTableView(cell: CoolerRiskTableViewCell) {
         cell.commentTextField.isHidden.toggle()
         cell.commentButton2.isHidden.toggle()
         cell.commentButton.isHidden.toggle()

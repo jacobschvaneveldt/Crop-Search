@@ -7,11 +7,11 @@
 
 import UIKit
 
-class DocumentsTableViewController: UIViewController {
+class DocumentsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Documents"
+        title = Strings.documentsTitle
         view.backgroundColor = .systemBackground
         view.addSubview(button)
         button.addTarget(self, action: #selector(goToMainVC), for: .touchUpInside)
@@ -27,14 +27,14 @@ class DocumentsTableViewController: UIViewController {
 
     let button: UIButton = {
        let button = UIButton()
-        button.setTitle("Tap to go to the next view ->", for: .normal)
+        button.setTitle(Strings.nextViewButtonTitle, for: .normal)
         button.setTitleColor(.black, for: .normal)
         
         return button
     }()
     
     @objc func goToMainVC() {
-        navigationController?.pushViewController(MainViewController(), animated: true)
+        navigationController?.pushViewController(CoolerRiskViewController(), animated: true)
     }
     
 }
